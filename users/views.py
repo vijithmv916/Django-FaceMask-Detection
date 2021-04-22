@@ -1,14 +1,16 @@
 from django.shortcuts import render
 from django.contrib.auth.forms import UserCreationForm
+# from .form import Custom_name
+from django.forms import ModelForm 
 
 # Create your views here.
-def signup(requests):
-    if requests.method == 'POST':
-        form = UserCreationForm(requests.POST)
+def signup(request):
+    if request.method == 'POST':
+        form = UserCreationForm(request.POST)
         if form.is_valid():
             form.save()
             # redirect(home)
-    return render(requests, 'signup.html', {'form':UserCreationForm})
+    return render(request, 'signup.html', {'form':UserCreationForm})
     
-def login(requests):
-    return render(requests, 'login.html')
+def login(request):
+    return render(request, 'login.html')
