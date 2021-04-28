@@ -12,6 +12,18 @@
       }
     </style>
 </head>
+<script>
+  let socket = new WebSocket('ws://localhost:8000/ws/mydata/')
+  socket.onopen = function(e){
+    alert('Connection established')
+  };
+  socket.onmessage = function(e){
+    console.log(e);
+  };
+  socket.onclose = function(e){
+    alert('Connection close')
+  };
+</script>
 <body>
 
     <nav class="navbar navbar-expand-lg navbar-light bg-light">

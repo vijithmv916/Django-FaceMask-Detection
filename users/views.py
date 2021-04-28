@@ -28,7 +28,11 @@ def login(request):
 
 @login_required(login_url='login')
 def dashboard(request):
-    return render(request, 'dashboard.html')
+    data = {
+        'cam1':{'camera_id':0, 'location':'null', 'count':0}
+    }
+    context = {'data':data, 'headers':['camera_id', 'location', 'count']}
+    return render(request, 'dashboard.html', context)
 
 def logout(request):
     authlogout(request)
