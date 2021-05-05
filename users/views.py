@@ -3,7 +3,7 @@ from django.contrib.auth.forms import UserCreationForm
 from django.forms import ModelForm 
 from django.contrib.auth import login as authlogin, logout as authlogout, authenticate 
 from django.contrib.auth.decorators import login_required
-
+from .decorators import allowed_users
 # Create your views here.
 def signup(request):
     if request.method == 'POST':
@@ -27,6 +27,8 @@ def login(request):
     return render(request, 'login.html')
 
 @login_required(login_url='login')
+
+@allowed_users(allowed_roles=['authority'])
 def dashboard(request):
     data = {
         'cam1':{'camera_id':0, 'location':'null', 'count':0}
