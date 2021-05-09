@@ -23,6 +23,8 @@ class ExtraFieldSerializer(serializers.ModelSerializer):
 
         user_data = validated_data.pop("user")
         user = UserSerializer.create(UserSerializer(), validated_data=user_data)
+        user.set_password(user_data['password'])
+        user.save()
         full_client, created = Client.objects.update_or_create(
             user=user, location=validated_data.pop("location")
         )
