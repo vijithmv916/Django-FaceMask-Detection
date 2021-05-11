@@ -3,6 +3,8 @@ from django.contrib.auth.forms import UserCreationForm
 from django.forms import ModelForm
 from django.contrib.auth import login as authlogin, logout as authlogout, authenticate
 from django.contrib.auth.decorators import login_required
+from rest_framework.decorators import api_view
+from rest_framework import status
 from .decorators import allowed_users
 
 from .serializer import *
@@ -35,6 +37,12 @@ def login(request):
 
     return render(request, "login.html")
 
+@api_view(['POST'])
+def api_logout(request):
+    if request.method == 'POST':
+        request.user.auth_token.delete()
+        return Response(status=status.HTTP_200_OK)
+
 
 @login_required(login_url="login")
 @allowed_users(allowed_roles=["authority"])
@@ -47,6 +55,8 @@ def dashboard(request):
 def logout(request):
     authlogout(request)
     return redirect("login")
+
+
 
 
 class RegisterClientView(APIView):
