@@ -3,6 +3,7 @@ from django.contrib.auth.forms import UserCreationForm
 from django.forms import ModelForm
 from django.contrib.auth import login as authlogin, logout as authlogout, authenticate
 from django.contrib.auth.decorators import login_required
+from django.template import context
 from rest_framework.decorators import api_view
 from rest_framework import status
 from .decorators import allowed_users
@@ -47,16 +48,19 @@ def api_logout(request):
 @login_required(login_url="login")
 @allowed_users(allowed_roles=["authority"])
 def dashboard(request):
-    data = {"cam1": {"camera_id": 0, "location": "null", "count": 0}}
-    context = {"data": data, "headers": ["camera_id", "location", "count"]}
+
+    client_user = Client.objects.all()
+
+    context = {'c_users': client_user}
+
+    # data = {"cam1": {"camera_id": 0, "location": "null", "count": 0}}
+    # context = {"data": data, "headers": ["camera_id", "location", "count"]}
     return render(request, "dashboard.html", context)
 
 
 def logout(request):
     authlogout(request)
     return redirect("login")
-
-
 
 
 class RegisterClientView(APIView):
