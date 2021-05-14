@@ -1,3 +1,4 @@
+from typing import Container
 from django.shortcuts import render, redirect
 from django.contrib.auth.forms import UserCreationForm
 from django.forms import ModelForm
@@ -34,7 +35,7 @@ def login(request):
 
         if user is not None:
             authlogin(request, user)
-            return redirect("dashboard")
+            return redirect(f"http://127.0.0.1:8000/dashboard/{username}")
 
     return render(request, "login.html")
 
@@ -47,11 +48,16 @@ def api_logout(request):
 
 @login_required(login_url="login")
 @allowed_users(allowed_roles=["authority"])
-def dashboard(request):
+def dashboard(request, username):
+
+    authority_code = User.objects.get(username=username)
 
     client_user = Client.objects.all()
 
-    context = {'c_users': client_user}
+    # context = {'c_users': client_user}
+    context = {
+        'authority_code' : authority_code,
+    }
 
     # data = {"cam1": {"camera_id": 0, "location": "null", "count": 0}}
     # context = {"data": data, "headers": ["camera_id", "location", "count"]}

@@ -12,7 +12,7 @@ from .views import (
 urlpatterns = [
     path("", signup, name="signup"),
     path("login/", login, name="login"),
-    path("dashboard/", dashboard, name="dashboard"),
+    path("dashboard/<str:username>", dashboard, name="dashboard"),
     path("logout/", logout, name="logout"),
     path("register/", RegisterClientView.as_view(), name="register"),
     path("APILogin/", obtain_auth_token, name='APILogin'),
