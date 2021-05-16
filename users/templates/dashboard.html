@@ -175,12 +175,13 @@
     </style>
   </head>
   <script>
-    let socket = new WebSocket("ws://localhost:8000/ws/mydata/");
+    var roomCode =  "{{authority_code}}" ;//document.getElementById("game_board").getAttribute("room_code");
+    let socket = new WebSocket("ws://localhost:8000/ws/mydata/"+roomCode);
     socket.onopen = function (e) {
       alert("Connection established");
     };
     socket.onmessage = function (e) {
-      var data = JSON.parse(event.data);
+      var data = JSON.parse(e.data);
       document.querySelector("#increment").innerText = data.count;
       console.log(data);
     };
