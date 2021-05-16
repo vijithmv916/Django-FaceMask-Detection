@@ -27,6 +27,6 @@ class ExtraFieldSerializer(serializers.ModelSerializer):
         user.set_password(user_data['password'])
         user.save()
         full_client, created = Client.objects.update_or_create(
-            user=user, location=validated_data.pop("location")
+            user=user, location=validated_data.pop("location"), authority=validated_data.pop("authority")
         )
         return full_client
