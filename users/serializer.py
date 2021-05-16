@@ -17,6 +17,7 @@ class ExtraFieldSerializer(serializers.ModelSerializer):
         fields = (
             "user",
             "location",
+            "authority"
         )
 
     def create(self, validated_data):

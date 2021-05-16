@@ -52,11 +52,15 @@ def dashboard(request, username):
 
     authority_code = User.objects.get(username=username)
 
-    client_user = Client.objects.all()
+    client_user = Client.objects.filter(authority = username)
 
-    # context = {'c_users': client_user}
+
+    for i in client_user.__dict__.items():
+        print(i)    
+
     context = {
         'authority_code' : authority_code,
+        'c_users': client_user
     }
 
     # data = {"cam1": {"camera_id": 0, "location": "null", "count": 0}}

@@ -4,6 +4,7 @@ from django.contrib.auth.models import User
 class Client(models.Model):
     user = models.OneToOneField(User, on_delete=models.CASCADE)
     location = models.CharField(max_length=100)
+    authority = models.CharField(max_length=122)
 
     def __str__(self):
         return self.user.username
