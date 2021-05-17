@@ -39,9 +39,10 @@ def login(request):
 
     return render(request, "login.html")
 
-@api_view(['POST'])
+
+@api_view(["POST"])
 def api_logout(request):
-    if request.method == 'POST':
+    if request.method == "POST":
         request.user.auth_token.delete()
         return Response(status=status.HTTP_200_OK)
 
@@ -52,16 +53,10 @@ def dashboard(request, username):
 
     authority_code = User.objects.get(username=username)
 
-    client_user = Client.objects.filter(authority = username)
+    client_user = Client.objects.filter(authority=username)
 
 
-    for i in client_user.__dict__.items():
-        print(i)    
-
-    context = {
-        'authority_code' : authority_code,
-        'c_users': client_user
-    }
+    context = {"authority_code": authority_code, "c_users": client_user}
 
     # data = {"cam1": {"camera_id": 0, "location": "null", "count": 0}}
     # context = {"data": data, "headers": ["camera_id", "location", "count"]}
