@@ -175,18 +175,14 @@
     </style>
   </head>
   <script>
-    var roomCode =  "{{authority_code}}" ;//document.getElementById("game_board").getAttribute("room_code");
-    let socket = new WebSocket("ws://localhost:8000/ws/mydata/"+roomCode);
-    socket.onopen = function (e) {
-      alert("Connection established");
-    };
+    var roomCode = "{{authority_code}}"; //document.getElementById("game_board").getAttribute("room_code");
+    let socket = new WebSocket("ws://localhost:8000/ws/mydata/" + roomCode);
     socket.onmessage = function (e) {
       var data = JSON.parse(e.data);
-      document.querySelector("#increment").innerText = data.count;
-      console.log(data);
-    };
-    socket.onclose = function (e) {
-      alert("Connection close");
+      let sup = "#"+data.name
+      console.log(sup);
+      document.querySelector(sup).innerText = data.count;
+
     };
   </script>
   <body>
@@ -255,16 +251,15 @@
             <th>Location</th>
             <th>NO Masks</th>
           </tr>
-          <!-- {% for c_user in c_users %}
+          {% for c_user in c_users %}
             <tr>
               <td>{{c_user.user.username}}</td>
               <td>{{c_user.location}}</td>
-              <td><span class="badge badge-primary badge-pill" id="increment">0</span></td>
+              <td><span class="badge badge-primary badge-pill" id="{{c_user.user.username}}">0</span></td>
             </tr>
-          {% endfor %} -->
+          {% endfor %}
         </table>
       </div>
     </div>
-
   </body>
 </html>
