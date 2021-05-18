@@ -28,5 +28,5 @@ class my_data(AsyncWebsocketConsumer):
         )
 
     async def clientNotification(self, event):
-        print(event["value"])
+        # print(event["value"])
         await self.send(event["value"])
