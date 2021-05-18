@@ -5,9 +5,12 @@ from django.forms import ModelForm
 from django.contrib.auth import login as authlogin, logout as authlogout, authenticate
 from django.contrib.auth.decorators import login_required
 from django.template import context
+from rest_framework import response
 from rest_framework.decorators import api_view
 from rest_framework import status
 from .decorators import allowed_users
+from rest_framework.authtoken.views import ObtainAuthToken
+from rest_framework.authtoken.models import Token
 
 from .serializer import *
 from .models import *
@@ -46,6 +49,23 @@ def api_logout(request):
         request.user.auth_token.delete()
         return Response(status=status.HTTP_200_OK)
 
+class CustomAuthToken(ObtainAuthToken):
+
+    def post(self, request, *args, **kwargs):
+        serializer = self.serializer_class(data=request.data,
+                                           context={'request': request})
+        serializer.is_valid(raise_exception=True)
+        user = serializer.validated_data['user']
+        token, created = Token.objects.get_or_create(user=user)
+
+        # get client user
+        c_user = Token.objects.get(key=token.key).user
+        cli = Client.objects.get(user=c_user)
+
+        return Response({
+            'token': token.key,
+            'authority': cli.authority,
+        })
 
 @login_required(login_url="login")
 @allowed_users(allowed_roles=["authority"])
