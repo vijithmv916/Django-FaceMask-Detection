@@ -11,12 +11,16 @@ from rest_framework import status
 from .decorators import allowed_users
 from rest_framework.authtoken.views import ObtainAuthToken
 from rest_framework.authtoken.models import Token
-
 from .serializer import *
 from .models import *
 from rest_framework.views import APIView
 from rest_framework.response import Response
 from rest_framework import status
+
+import requests
+from bs4 import BeautifulSoup as b
+
+
 
 
 # Create your views here.
@@ -88,8 +92,24 @@ def dashboard(request, username):
 @allowed_users(allowed_roles=["authority"])
 
 def covid(request):
-    
-    return render(request, "covid.html")
+
+    url = 'https://dashboard.kerala.gov.in/daily.php'
+    html_data = requests.get(url).text
+    name = b(html_data)
+    my_list = name.find_all('h3', {'class':'my-lg-1'})
+
+    today_pos = my_list[0].text
+    admitts = my_list[1].text
+    neg = my_list[2].text
+    death = my_list[3].text
+    context = {
+        'today':today_pos,
+        'admited':admitts,
+        'negative':neg,
+        'death':death,
+    }
+
+    return render(request, "covid.html", context)
 
 
 def logout(request):
