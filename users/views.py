@@ -83,6 +83,15 @@ def dashboard(request, username):
     return render(request, "dashboard.html", context)
 
 
+# covid page
+@login_required(login_url="login")
+@allowed_users(allowed_roles=["authority"])
+
+def covid(request):
+    
+    return render(request, "covid.html")
+
+
 def logout(request):
     authlogout(request)
     return redirect("login")

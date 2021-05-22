@@ -1,11 +1,8 @@
-{% load static %}
-<!DOCTYPE html>
-<html lang="en">
-  <head>
+<head>
     <meta charset="UTF-8" />
     <meta http-equiv="X-UA-Compatible" content="IE=edge" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>DashBoard</title>
+    <title>Covid Board</title>
     <link
       rel="stylesheet"
       href="https://cdn.jsdelivr.net/npm/bootstrap@4.6.0/dist/css/bootstrap.min.css"
@@ -174,17 +171,6 @@
       }
     </style>
   </head>
-  <script>
-    var roomCode = "{{authority_code}}"; //document.getElementById("game_board").getAttribute("room_code");
-    let socket = new WebSocket("ws://localhost:8000/ws/mydata/" + roomCode);
-    socket.onmessage = function (e) {
-      var data = JSON.parse(e.data);
-      let sup = "#"+data.name
-      console.log(sup);
-      document.querySelector(sup).innerText = data.count;
-
-    };
-  </script>
   <body>
     <nav class="navbar navbar-dark bg-dark">
       <a class="navbar-brand" href="#">Face Mask Detection</a>
@@ -212,12 +198,12 @@
         >
           <div class="user-logo">
             <div class="img" style="background-image: url('')"></div>
-            <h3>{{ authority_code }}</h3>
+            <h3>{{ request.user.username }}</h3>
           </div>
         </div>
         <ul class="list-unstyled components mb-5">
           <li class="active">
-            <a href=""><span class="fa fa-home mr-3"></span> Home</a>
+            <a href="{% url 'dashboard' request.user.username%}"><span class="fa fa-home mr-3"></span> Home</a>
           </li>
           <li>
             <a href=""
@@ -241,25 +227,3 @@
           </li>
         </ul>
       </nav>
-
-      <!-- Page Content  -->
-      <div id="content" class="main-pos">
-        <h2 class="mb-4">_______ FaceMask Detection Board _______</h2>
-        <table class="table table-sm" id="dash-table">
-          <tr>
-            <th>User</th>
-            <th>Location</th>
-            <th>NO Masks</th>
-          </tr>
-          {% for c_user in c_users %}
-            <tr>
-              <td>{{c_user.user.username}}</td>
-              <td>{{c_user.location}}</td>
-              <td><span class="badge badge-primary badge-pill" id="{{c_user.user.username}}">0</span></td>
-            </tr>
-          {% endfor %}
-        </table>
-      </div>
-    </div>
-  </body>
-</html>
