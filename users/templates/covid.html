@@ -169,6 +169,37 @@
         margin-right: auto;
         margin-top: 50px;
       }
+      .card-grid{
+        font-family: monospace;
+        display: grid;
+        grid-template-columns: 337px 337px 337px;
+        /* gap: 1em; */
+        margin: auto;
+      }
+
+      .covid-cards{
+        /* background-color: #2f89fc; */
+        margin: 30px;
+        padding: 2rem;
+        height: 2in;
+        border-radius: 2rem;
+        align-items: center;
+
+      }
+      
+      .heading-con{
+        background-color: #1764c9;
+        color: white;
+        border-radius: 40px;
+        text-align: center;
+      }
+      .c-body{
+        color: white;
+        text-align: center;
+      }
+
+      
+
     </style>
   </head>
   <body>
@@ -227,6 +258,55 @@
           </li>
         </ul>
       </nav>
-      {{today}}
+      
+      <div class="card-grid">
+        <div class="covid-cards" style="background-color: #2f89fc;
+        grid-column-start: 1; grid-column-end: 4;">
+          
+          <div class="heading-con" style="background-color: #2165be;" >
+            <h2>Total</h2>
+          </div>
+          <div class="c-body">
+            <h3>{{today}}</h3>
+            <h5>Update : {{ today_udt }}</h5>
+          </div>
+
+      </div>
+        <div class="covid-cards" style="background-color: #9a1cd4;">
+          
+          <div class="heading-con" style="background-color: #760da7;" >
+            <h2>Admited</h2>
+          </div>
+          <div class="c-body">
+            <h3>{{admited}}</h3>
+            <h5>Update : {{ admited_udt }}</h5>
+          </div>
+
+      </div>
+        <div class="covid-cards" style="background-color: #17c735;">
+          
+          <div class="heading-con" style="background-color: #0b9722;" >
+            <h2>Negative</h2>
+          </div>
+          <div class="c-body">
+            <h3>{{negative}}</h3>
+            <h5>Update : {{ negative_udt }}</h5>
+          </div>
+
+      </div>
+        <div class="covid-cards" style="background-color: #e22a1d;">
+          
+          <div class="heading-con" style="background-color: #b4170c;" >
+            <h2>Death</h2>
+          </div>
+          <div class="c-body">
+            <h3>{{death}}</h3>
+            <h5>Update : {{ death_udt }}</h5>
+          </div>
+
+      </div>
+        
+    </div>
+            <!-- {{today}} -->
     </body>
 

@@ -98,15 +98,19 @@ def covid(request):
     name = b(html_data)
     my_list = name.find_all('h3', {'class':'my-lg-1'})
 
-    today_pos = my_list[0].text
-    admitts = my_list[1].text
-    neg = my_list[2].text
-    death = my_list[3].text
+    today_pos = my_list[0].text.split('(')
+    admitts = my_list[1].text.split('(')
+    neg = my_list[2].text.split('(')
+    death = my_list[3].text.split('(')
     context = {
-        'today':today_pos,
-        'admited':admitts,
-        'negative':neg,
-        'death':death,
+        'today':today_pos[0],
+        'today_udt':today_pos[1][:-1],
+        'admited':admitts[0],
+        'admited_udt':admitts[1][:-1],
+        'negative':neg[0],
+        'negative_udt':neg[1][:-1],
+        'death':death[0],
+        'death_udt':death[1][:-1],
     }
 
     return render(request, "covid.html", context)
